@@ -1,36 +1,21 @@
-import React, { useState } from 'react';
-import Dropdown from '../common/Dropdown';
-import { CalenderIcon } from '../common/Icons';
-import { UserData } from './Data';
+import { useState } from 'react';
+import { CalenderIcon } from '../../common/Icons';
+import { UserData } from '../Data';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js/auto';
 import { Bar, Line } from 'react-chartjs-2';
-import { useDispatch, useSelector } from 'react-redux';
-import { chartType, cryptocurrency } from '../../store';
+import { useSelector } from 'react-redux';
+import ChartBarDropDown from './ChartBar';
+import CryptoCurrencyDropDown from './CryptoCurrencyDropDown';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ChartData = () => {
-  const dispatch = useDispatch();
   const chartTypeData = useSelector((state: any) => {
     return state.dropdown.chartData;
   });
-  const cryptoTypeData = useSelector((state: any) => {
-    console.log('state', state);
-    return state.dropdown.cryptoData;
-  });
-  console.log(cryptoTypeData);
 
-  const handleDropdownChangeChart = (event: any) => {
-    const value = event.target.value;
-    dispatch(chartType(value));
-  };
-  const handleDropdownChangeCrypto = (event: any) => {
-    const value = event.target.value;
-    dispatch(cryptocurrency(value));
-  };
-
-  const [user, setUser] = React.useState({
+  const [user, setUser] = useState({
     labels: UserData.map((data) => data.year),
     datasets: [
       {
@@ -58,8 +43,6 @@ const ChartData = () => {
       },
     ],
   });
-  const chartTypeOptions = ['Bar Chart', 'Line Chart'];
-  const cryptoOptions = ['CryptoCurrency', 'BitCoin', 'Binaca'];
   return (
     <div className="bg-white shadow rounded my-4 px-4 py-6">
       <div className="">
@@ -77,29 +60,8 @@ const ChartData = () => {
             </div>
           </div>
           <div className="flex gap-1 md:gap-3 my-4 ">
-            <select
-              className="ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
-              value={cryptoTypeData}
-              onChange={handleDropdownChangeCrypto}
-            >
-              {cryptoOptions.map((item, index) => (
-                <option value={item} key={index}>
-                  {item}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className="ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
-              value={chartTypeData}
-              onChange={handleDropdownChangeChart}
-            >
-              {chartTypeOptions.map((item, index) => (
-                <option value={item} key={index}>
-                  {item}
-                </option>
-              ))}
-            </select>
+            <CryptoCurrencyDropDown />
+            <ChartBarDropDown />
           </div>
         </div>
         <div className="">
