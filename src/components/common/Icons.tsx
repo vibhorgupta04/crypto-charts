@@ -10,6 +10,24 @@ export const DownIcon = ({ fill, width, height }: any) => (
   </svg>
 );
 
+export const UpIcon = ({ fill, width, height }: any) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={width || 24}
+    height={height || 24}
+  >
+    {/* <path fill="none" d="M0 0h24v24H0z" /> */}
+    <path d="M12 8L18 14H6L12 8Z" fill={fill || '#000'} />
+  </svg>
+);
+
+{
+  /* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path d="M12 8L18 14H6L12 8Z"></path>
+</svg>; */
+}
+
 export const SearchLineIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

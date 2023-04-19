@@ -4,7 +4,6 @@ import { cryptocurrency } from '../../../store';
 const CryptoCurrencyDropDown = () => {
   const dispatch = useDispatch();
   const cryptoTypeData = useSelector((state: any) => {
-    console.log('state', state);
     return state.dropdown.cryptoData;
   });
 
