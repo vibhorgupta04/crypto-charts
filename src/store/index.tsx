@@ -7,7 +7,11 @@ import {
   currency,
 } from './slices/dropdownSlice';
 
-import { apiResponseReducer, marketCap } from './slices/apiResponse';
+import {
+  apiResponseReducer,
+  marketCap,
+  trendingCoin,
+} from './slices/apiResponse';
 
 const store = configureStore({
   reducer: {
@@ -16,4 +20,4 @@ const store = configureStore({
   },
 });
 
-export { store, chartType, cryptocurrency, marketCap, currency };
+export { store, chartType, cryptocurrency, marketCap, trendingCoin, currency };
