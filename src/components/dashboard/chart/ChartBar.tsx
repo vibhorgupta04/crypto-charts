@@ -13,7 +13,7 @@ const ChartBar = () => {
     dispatch(chartType(chartValue));
   };
 
-  const chartTypeOptions = ['Bar Chart', 'Line Chart'];
+  const chartTypeOptions = ['Bar', 'Line', 'Line with Markers'];
 
   return (
     <select

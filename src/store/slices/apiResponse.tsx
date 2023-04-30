@@ -5,7 +5,7 @@ const apiResponse = createSlice({
   initialState: {
     market: {},
     trendCoin: [],
-    // cryptoData: 'CryptoCurrency',
+    cryptoData: {},
   },
   reducers: {
     marketCap(state: any, action: any) {
@@ -14,8 +14,12 @@ const apiResponse = createSlice({
     trendingCoin(state: any, action: any) {
       state.trendCoin = action.payload;
     },
+    searchCryptoData(state: any, action: any) {
+      state.cryptoData = action.payload;
+    },
   },
 });
 
-export const { marketCap, trendingCoin } = apiResponse.actions;
+export const { marketCap, trendingCoin, searchCryptoData } =
+  apiResponse.actions;
 export const apiResponseReducer = apiResponse.reducer;
