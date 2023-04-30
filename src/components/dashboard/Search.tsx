@@ -1,14 +1,18 @@
 import { useState } from 'react';
 
 import { SearchLineIcon } from '../common/Icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { coinValue } from '../../store';
 
 const Search = () => {
+  const dispatch = useDispatch();
   const [openSearch, setOpenSearch] = useState(false);
 
   const coinsTrending = useSelector((state: any) => {
     return state.api.trendCoin;
   });
+
+  console.log('coinsTrending', coinsTrending);
 
   return (
     <div className={`${openSearch ? 'drop-shadow' : ''} relative w-full`}>
@@ -33,17 +37,20 @@ const Search = () => {
             </div>
             <div className="">
               {coinsTrending.map(
-                ({ item: { small, name, symbol, market_cap_rank } }: any) => (
-                  <div
+                ({
+                  item: { id, small, name, symbol, market_cap_rank },
+                }: any) => (
+                  <button
                     className="my-2 w-full rounded flex px-4 py-2 justify-between hover:bg-gray-100"
                     key={name}
+                    onClick={() => dispatch(coinValue(id))}
                   >
                     <div className="text-lg flex items-center gap-2 cursor-pointer">
                       <img src={small} width="20" height="20"></img>
                       {name} ({symbol})
                     </div>
                     <div className="text-gray-200">#{market_cap_rank}</div>
-                  </div>
+                  </button>
                 )
               )}
             </div>

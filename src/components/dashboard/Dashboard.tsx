@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { marketCap, currency, trendingCoin } from '../../store';
+import {
+  marketCap,
+  currency,
+  trendingCoin,
+  searchCryptoData,
+} from '../../store';
 import axios from 'axios';
 
 import ChartData from './chart/ChartData';
@@ -13,6 +18,8 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const [loadingCap, setLoadingCap] = useState(false);
   const [loadingTrend, setLoadingTrend] = useState(false);
+  const [loadingCoinData, setLoadingCoinData] = useState(false);
+
   const currencyOptions = ['INR', 'USD', 'GBP', 'EUR', 'YEN'];
 
   const handleDropdownChangeChart = (event: any) => {
@@ -22,6 +29,14 @@ const Dashboard = () => {
 
   const currencyData = useSelector((state: any) => {
     return state.dropdown.currencyCountry;
+  });
+
+  const cryptoData = useSelector((state: any) => {
+    return state.coin.coin;
+  });
+
+  const coin = useSelector((state: any) => {
+    return state.coin.coin;
   });
 
   useEffect(() => {
@@ -40,25 +55,31 @@ const Dashboard = () => {
     };
     fetchTrending();
   }, []);
-  const id = 'bitcoin';
-  const day = 5;
+
+  const day = 365;
 
   useEffect(() => {
-    async function fetchCoinData() {
-      const response = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
-        {
-          params: {
-            vs_currency: currencyData.toLowerCase(),
-            days: day,
-          },
-        }
-      );
-      console.log('response', response);
-      // setCoinData(response.data.prices);
-    }
+    const fetchCoinData = async () => {
+      try {
+        setLoadingCoinData(true);
+        const response: any = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${coin}/market_chart`,
+          {
+            params: {
+              vs_currency: currencyData.toLowerCase(),
+              days: day,
+            },
+          }
+        );
+        dispatch(searchCryptoData(response));
+        setLoadingCoinData(true);
+      } catch (error) {
+        console.log(error);
+        setLoadingCoinData(false);
+      }
+    };
     fetchCoinData();
-  }, []);
+  }, [coin, currencyData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +91,7 @@ const Dashboard = () => {
             params: {
               vs_currency: currencyData.toLowerCase(),
               order: 'market_cap_desc',
-              per_page: '10',
+              per_page: '200',
               page: '1',
             },
           }

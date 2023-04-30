@@ -1,7 +1,10 @@
+import { coinValue } from '../../store';
 import { DownIcon, UpIcon } from '../common/Icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const MarketCap = () => {
+  const dispatch = useDispatch();
+
   const marKetData = useSelector((state: any) => {
     return state.api.market;
   });
@@ -15,13 +18,14 @@ const MarketCap = () => {
     <>
       <div className="md:w-2/5 h-fit bg-white px-4 py-6">
         <div className="font-bold">Cryptocurrency by market cap</div>
-        <div>
+        <div className=" h-[900px] overflow-y-scroll">
           {data &&
             data.length > 0 &&
             data.map((item: any) => (
               <div
-                className=" my-4 flex items-center justify-between font-semibold border-b py-2"
+                className=" my-4 flex items-center justify-between font-semibold border-b py-2 cursor-pointer"
                 key={item.id}
+                onClick={() => dispatch(coinValue(item.id))}
               >
                 <div className="">
                   <div className="flex items-center gap-2">
@@ -31,7 +35,8 @@ const MarketCap = () => {
                       width="20"
                       height="20"
                     />
-                    {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
+                    {item.name.charAt(0).toUpperCase() + item.name.slice(1)} (
+                    {item.symbol.toUpperCase()})
                   </div>
                   <div className="text-gray-400 ">
                     Mkt.cap
