@@ -16,9 +16,9 @@ const MarketCap = () => {
 
   return (
     <>
-      <div className="md:w-2/5 h-fit bg-white px-4 py-6">
+      <div className="lg:w-2/4 my-4 lg:my-0 h-fit overflow-x-hidden bg-white px-4 py-6 ">
         <div className="font-bold">Cryptocurrency by market cap</div>
-        <div className=" h-[900px] overflow-y-scroll">
+        <div className="scroll h-[900px] overflow-y-scroll">
           {data &&
             data.length > 0 &&
             data.map((item: any) => (
@@ -40,30 +40,34 @@ const MarketCap = () => {
                   </div>
                   <div className="text-gray-400 ">
                     Mkt.cap
-                    <span className="text-gray-500 ml-2">
-                      {(currencyData == 'INR' && '₹') ||
-                        (currencyData == 'USD' && '$') ||
-                        (currencyData == 'GBP' && '£') ||
-                        (currencyData == 'YEN' && '￥') ||
-                        (currencyData == 'EUR' && '€')}
-                      {(item.market_cap / 1000000000).toFixed(2)}B
-                    </span>
+                    {item.market_cap && (
+                      <span className="text-gray-500 ml-2">
+                        {(currencyData == 'INR' && '₹') ||
+                          (currencyData == 'USD' && '$') ||
+                          (currencyData == 'GBP' && '£') ||
+                          (currencyData == 'YEN' && '￥') ||
+                          (currencyData == 'EUR' && '€')}
+                        {(item?.market_cap / 1000000000)?.toFixed(2)}B
+                      </span>
+                    )}
                   </div>
                 </div>
-                <div
-                  className={`${
-                    item.market_cap_change_percentage_24h <= 0
-                      ? 'text-orange-1'
-                      : 'text-green-1'
-                  } flex items-center`}
-                >
-                  {item.market_cap_change_percentage_24h <= 0 ? (
-                    <DownIcon width="24" height="24" fill="#ec7622" />
-                  ) : (
-                    <UpIcon width="24" height="24" fill="#4c9d8a" />
-                  )}
-                  {item.market_cap_change_percentage_24h.toFixed(2)}%
-                </div>
+                {item?.market_cap_change_percentage_24h && (
+                  <div
+                    className={`${
+                      item?.market_cap_change_percentage_24h <= 0
+                        ? 'text-orange-1'
+                        : 'text-green-1'
+                    } flex items-center`}
+                  >
+                    {item?.market_cap_change_percentage_24h <= 0 ? (
+                      <DownIcon width="24" height="24" fill="#ec7622" />
+                    ) : (
+                      <UpIcon width="24" height="24" fill="#4c9d8a" />
+                    )}
+                    {item.market_cap_change_percentage_24h?.toFixed(2)}%
+                  </div>
+                )}
               </div>
             ))}
         </div>

@@ -2,16 +2,22 @@ import { useState, useEffect } from 'react';
 import { CalenderIcon } from '../../common/Icons';
 import { UserData } from '../Data';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js/auto';
 import { Bar, Line } from 'react-chartjs-2';
-import { useSelector } from 'react-redux';
 import ChartBarDropDown from './ChartBar';
 import CryptoCurrencyDropDown from './CryptoCurrencyDropDown';
+import { days } from '../../../store';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ChartData = () => {
+  const dispatch = useDispatch();
+
+  // console.log('dispatch >>>', dispatch(days));
+  console.log('days >>>', days);
+
   const chartTypeData = useSelector((state: any) => {
     return state.dropdown.chartData;
   });
@@ -27,13 +33,14 @@ const ChartData = () => {
   const cryptoData = useSelector((state: any) => {
     return state.api.cryptoData;
   });
-  const [data, setData] = useState({});
+
   const formattedData: any = cryptoData?.data?.prices?.map((price: any) => {
     return { x: new Date(price[0]), y: price[1] };
   });
 
   const labelModified = `${coin} price in ${currencyData}`;
-  const dataBar: any = {
+
+  const dataBar = {
     labels: formattedData
       ?.slice(formattedData.length - 300, formattedData.length + 1)
       .map(({ x }: any) => moment(x).format('DD-MMM-YYYY')),
@@ -65,7 +72,7 @@ const ChartData = () => {
     },
   };
 
-  const [userLine, setUserLine] = useState({
+  const userLine = {
     labels: formattedData?.map(({ x }: any) =>
       moment(x).format('DD-MMM-YY h:mm a')
     ),
@@ -80,7 +87,7 @@ const ChartData = () => {
         barThickness: 1,
       },
     ],
-  });
+  };
 
   const options: any = {
     elements: {
@@ -118,28 +125,50 @@ const ChartData = () => {
     },
   };
 
+  const value: any = 1;
+  const handleDropdownChangeChart = (value: any) => {
+    // const chartValue: any = event.target.value;
+    dispatch(days(value));
+  };
+
+  const DAY = useSelector((state: any) => {
+    return state.dropdown.daySelected;
+  });
+
+  const array = [
+    { value: 1, title: '1D' },
+    { value: 7, title: '1W' },
+    { value: 30, title: '1M' },
+    { value: 90, title: '3M' },
+    { value: 180, title: '6M' },
+    { value: 364, title: '1Y' },
+  ];
+
   return (
     <div className="bg-white shadow rounded my-4 px-4 py-6">
       <div className="">
         <div className="md:flex items-center justify-end gap-8">
           <div className="flex flex-wrap gap-3 font-semibold ">
-            <div className="rounded bg-gray-2 py-2 px-4 cursor-pointer">1D</div>
-            <div className="rounded bg-blue-2 ring-2 ring-blue-3 text-blue-3 py-2 px-4 cursor-pointer">
-              1W
-            </div>
-            <div className="rounded bg-gray-2 py-2 px-4 cursor-pointer">1M</div>
-            <div className="rounded bg-gray-2 py-2 px-4 cursor-pointer">6M</div>
-            <div className="rounded bg-gray-2 py-2 px-4 cursor-pointer">1Y</div>
-            <div className="rounded bg-gray-2 py-2 px-4 cursor-pointer">
-              <CalenderIcon fill="#5e6e88" />
-            </div>
+            {array.map(({ value, title }: any) => (
+              <button
+                key={value}
+                className={`rounded  py-2 px-4 ${
+                  DAY === value
+                    ? 'bg-blue-2 ring-2 ring-blue-3 text-blue-3'
+                    : 'bg-gray-2'
+                }`}
+                onClick={() => dispatch(days(value))}
+              >
+                {title}
+              </button>
+            ))}
           </div>
-          <div className="flex gap-1 md:gap-3 my-4 ">
+          <div className="flex flex-col md:flex-row gap-1 md:gap-3 my-4 ">
             <CryptoCurrencyDropDown />
             <ChartBarDropDown />
           </div>
         </div>
-        <div className="">
+        <div>
           {chartTypeData == 'Bar' && (
             <Bar data={dataBar} options={optionsBar} />
           )}

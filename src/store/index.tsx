@@ -5,6 +5,7 @@ import {
   chartType,
   cryptocurrency,
   currency,
+  days,
 } from './slices/dropdownSlice';
 
 import {
@@ -31,6 +32,7 @@ export {
   marketCap,
   trendingCoin,
   currency,
+  days,
   coinValue,
   searchCryptoData,
 };

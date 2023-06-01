@@ -31,6 +31,12 @@ const Dashboard = () => {
     return state.dropdown.currencyCountry;
   });
 
+  console.log('currencyData >>>', currencyData);
+
+  const day = useSelector((state: any) => {
+    return state.dropdown.daySelected;
+  });
+
   const cryptoData = useSelector((state: any) => {
     return state.coin.coin;
   });
@@ -47,7 +53,8 @@ const Dashboard = () => {
           'https://api.coingecko.com/api/v3/search/trending'
         );
         dispatch(trendingCoin(response.data?.coins));
-        setLoadingTrend(true);
+        console.log('>>>>>', response.data?.coins);
+        setLoadingTrend(false);
       } catch (error) {
         console.log(error);
         setLoadingTrend(false);
@@ -56,65 +63,65 @@ const Dashboard = () => {
     fetchTrending();
   }, []);
 
-  const day = 365;
+  const fetchCoinData = async () => {
+    try {
+      setLoadingCoinData(true);
+      const response: any = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/${coin}/market_chart`,
+        {
+          params: {
+            vs_currency: currencyData.toLowerCase(),
+            days: day,
+          },
+        }
+      );
+      dispatch(searchCryptoData(response));
+      setLoadingCoinData(false);
+    } catch (error) {
+      console.log(error);
+      setLoadingCoinData(false);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      setLoadingCap(true);
+      const response: any = await axios.get(
+        'https://api.coingecko.com/api/v3/coins/markets',
+        {
+          params: {
+            vs_currency: currencyData.toLowerCase(),
+            order: 'market_cap_desc',
+            per_page: '200',
+            page: '1',
+          },
+        }
+      );
+      dispatch(marketCap(response));
+      setLoadingCap(false);
+    } catch (error) {
+      console.log('error', error);
+      setLoadingCap(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCoinData = async () => {
-      try {
-        setLoadingCoinData(true);
-        const response: any = await axios.get(
-          `https://api.coingecko.com/api/v3/coins/${coin}/market_chart`,
-          {
-            params: {
-              vs_currency: currencyData.toLowerCase(),
-              days: day,
-            },
-          }
-        );
-        dispatch(searchCryptoData(response));
-        setLoadingCoinData(true);
-      } catch (error) {
-        console.log(error);
-        setLoadingCoinData(false);
-      }
-    };
     fetchCoinData();
-  }, [coin, currencyData]);
+  }, [coin, day]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingCap(true);
-        const response: any = await axios.get(
-          'https://api.coingecko.com/api/v3/coins/markets',
-          {
-            params: {
-              vs_currency: currencyData.toLowerCase(),
-              order: 'market_cap_desc',
-              per_page: '200',
-              page: '1',
-            },
-          }
-        );
-        dispatch(marketCap(response));
-        setLoadingCap(false);
-      } catch (error) {
-        console.log('error', error);
-        setLoadingCap(false);
-      }
-    };
     fetchData();
   }, [currencyData]);
 
-  if (loadingCap && loadingTrend)
+  if (loadingCap || loadingTrend)
     return <div className="text-xl my-10">Loading...</div>;
 
   return (
-    <div className=" bg-blue-1 m-6 p-4 rounded md:flex gap-4">
+    <div className=" bg-blue-1 md:m-6 px-2 py-4 md:p-4 rounded lg:flex gap-4 overflow-hidden">
       <div className="w-full">
-        <div className="flex items-center gap-4 ">
+        <div className="flex flex-col md:flex-row items-center gap-4 ">
           <select
-            className="ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
+            className="w-full md:w-auto ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
             value={currencyData}
             onChange={handleDropdownChangeChart}
           >
