@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { CalenderIcon } from '../../common/Icons';
 import { UserData } from '../Data';
 import moment from 'moment';
@@ -14,9 +15,41 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ChartData = () => {
   const dispatch = useDispatch();
+  const [dataCoin, setDataCoin] =useState<any>('')
+  const[loadingCoinData ,setLoadingCoinData] = useState(false)
+  
+  
 
-  // console.log('dispatch >>>', dispatch(days));
-  console.log('days >>>', days);
+  const day = useSelector((state: any) => {
+    return state.dropdown.daySelected;
+  });
+  const coin2 = useSelector((state: any) => {
+    return state.coin.coin;
+  });
+
+  console.log(coin2)
+
+const fetchCoinData = async () => {
+    try {
+      const response: any = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/band-protocol/market_chart`,
+        {
+          params: {
+            vs_currency: currencyData.toLowerCase(),
+            days: day,
+          },
+        }
+      );
+      setDataCoin(response);
+    } catch (error) {
+      console.log(error);
+      setLoadingCoinData(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCoinData();
+  }, [day]);
 
   const chartTypeData = useSelector((state: any) => {
     return state.dropdown.chartData;
@@ -37,23 +70,35 @@ const ChartData = () => {
   const formattedData: any = cryptoData?.data?.prices?.map((price: any) => {
     return { x: new Date(price[0]), y: price[1] };
   });
+  const formattedData2: any = dataCoin?.data?.prices?.map((price: any) => {
+    return { x: new Date(price[0]), y: price[1] };
+  });
 
-  const labelModified = `${coin} price in ${currencyData}`;
+  const labelModified = `${coin.toUpperCase()} `;
+  const labelModified2 = `iostoken`;
 
   const dataBar = {
-    labels: formattedData
-      ?.slice(formattedData.length - 300, formattedData.length + 1)
-      .map(({ x }: any) => moment(x).format('DD-MMM-YYYY')),
+    labels: formattedData?.map(({ x }: any) => moment(x).format('DD-MMM-YYYY')),
     datasets: [
       {
         label: labelModified,
         data: formattedData,
-
-        backgroundColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+        backgroundColor: ['rgba(255, 99, 132, 0.5)',],
         borderColor: 'rgba(255, 99, 132, 1)',
         barPercentage: 0,
         borderWidth: 0,
-        barThickness: 0.1,
+        barThickness: 1,
+        minBarLength: 1.2,
+        base: 5000,
+      },
+      {
+        label: labelModified2,
+        data: formattedData2,
+        backgroundColor: ['rgba(75, 192, 192, 0.5)'],
+        borderColor: 'rgba(75, 192, 192, 1)',
+        barPercentage: 0,
+        borderWidth: 0,
+        barThickness: 1,
         minBarLength: 1.2,
         base: 5000,
       },
@@ -80,9 +125,17 @@ const ChartData = () => {
       {
         label: labelModified,
         data: formattedData,
-        backgroundColor: ['#2962ff', '#555', '#4fff'],
+        backgroundColor: ['#2962ff'],
         borderColor: '#2962ff',
         fill: '#2962ff',
+        borderWidth: 1,
+        barThickness: 1,
+      },
+      {
+        label: labelModified2,
+        data: formattedData2,
+        backgroundColor: ['#00f000',],
+        borderColor: '#00f000',
         borderWidth: 1,
         barThickness: 1,
       },
@@ -125,11 +178,10 @@ const ChartData = () => {
     },
   };
 
-  const value: any = 1;
-  const handleDropdownChangeChart = (value: any) => {
-    // const chartValue: any = event.target.value;
-    dispatch(days(value));
-  };
+  // const value: any = 1;
+  // const handleDropdownChangeChart = (value: any) => {
+  //   dispatch(days(value));
+  // };
 
   const DAY = useSelector((state: any) => {
     return state.dropdown.daySelected;
@@ -168,7 +220,7 @@ const ChartData = () => {
             <ChartBarDropDown />
           </div>
         </div>
-        <div>
+        <div className=''>
           {chartTypeData == 'Bar' && (
             <Bar data={dataBar} options={optionsBar} />
           )}
@@ -180,6 +232,7 @@ const ChartData = () => {
             <Line data={userLine} options={options} />
           )}
         </div>
+        
       </div>
     </div>
   );

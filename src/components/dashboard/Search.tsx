@@ -63,9 +63,10 @@ const Search = () => {
         <input
           type="text"
           placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
+          // placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
           className={`w-full focus:outline-none placeholder:font-semibold ${
             currencyName
-              ? 'placeholder:text-black font-semibold'
+              ? 'placeholder:text-gray-1'
               : 'placeholder:text-gray-1'
           }`}
           value={currency}
@@ -73,7 +74,7 @@ const Search = () => {
         />
       </div>
       {openSearch && (
-        <div className="relative">
+        <div className="relative bg-white">
           <div className="absolute rounded-b w-full bg-white">
             <div className="border-b pt-4 px-4 text-gray-400">
               {currency.length <= 0 ? 'Trending Search' : 'Cryptocurrencies'}
