@@ -24,15 +24,13 @@ const ChartData = () => {
     return state.dropdown.daySelected;
   });
   const coin2 = useSelector((state: any) => {
-    return state.coin.coin;
+    return state.dropdown.cryptoData;
   });
-
-  console.log(coin2)
 
 const fetchCoinData = async () => {
     try {
       const response: any = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/band-protocol/market_chart`,
+        `https://api.coingecko.com/api/v3/coins/${coin2}/market_chart`,
         {
           params: {
             vs_currency: currencyData.toLowerCase(),
@@ -49,7 +47,7 @@ const fetchCoinData = async () => {
 
   useEffect(() => {
     fetchCoinData();
-  }, [day]);
+  }, [coin2, day]);
 
   const chartTypeData = useSelector((state: any) => {
     return state.dropdown.chartData;
@@ -74,8 +72,8 @@ const fetchCoinData = async () => {
     return { x: new Date(price[0]), y: price[1] };
   });
 
-  const labelModified = `${coin.toUpperCase()} `;
-  const labelModified2 = `iostoken`;
+  const labelModified = `${coin.toUpperCase()}`;
+  const labelModified2 = `${coin2.toUpperCase()}`
 
   const dataBar = {
     labels: formattedData?.map(({ x }: any) => moment(x).format('DD-MMM-YYYY')),
@@ -128,15 +126,15 @@ const fetchCoinData = async () => {
         backgroundColor: ['#2962ff'],
         borderColor: '#2962ff',
         fill: '#2962ff',
-        borderWidth: 1,
+        borderWidth: 1.5,
         barThickness: 1,
       },
       {
         label: labelModified2,
         data: formattedData2,
-        backgroundColor: ['#00f000',],
-        borderColor: '#00f000',
-        borderWidth: 1,
+        backgroundColor: ['rgb(75, 192, 192)',],
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 1.5,
         barThickness: 1,
       },
     ],

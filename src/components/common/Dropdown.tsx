@@ -10,17 +10,6 @@ const Dropdown = ({ options, value, format }: any) => {
   const [selectedOption, setSelectedOption] = useState(
     options ? options[0] : ''
   );
-
-  // const datatype = useSelector((state: any) => {
-  //   console.log(datatype);
-  //   // state.dropdown.selectedOption;
-  // });
-
-  // const handleOptionChange: any = (option: any) => {
-  //   setSelectedOption(option);
-  //   dispatch(chartType(option));
-  // };
-
   return (
     <>
       <div className="">

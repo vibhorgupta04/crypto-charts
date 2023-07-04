@@ -31,8 +31,6 @@ const Dashboard = () => {
     return state.dropdown.currencyCountry;
   });
 
-  console.log('currencyData >>>', currencyData);
-
   const day = useSelector((state: any) => {
     return state.dropdown.daySelected;
   });

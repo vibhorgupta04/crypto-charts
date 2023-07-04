@@ -84,10 +84,7 @@ const Search = () => {
                 {loading ? (
                   <div className="py-2 px-4 text-gray-500">Loading...</div>
                 ) : (
-                  coinsTrending.map(
-                    ({
-                      item: { id, small, name, symbol, market_cap_rank },
-                    }: any) => (
+                  coinsTrending.map(({item: { id, small, name, symbol, market_cap_rank },}: any) => (
                       <button
                         className="my-2 w-full rounded flex px-4 py-2 justify-between hover:bg-gray-100"
                         key={name}

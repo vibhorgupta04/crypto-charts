@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { cryptocurrency } from '../../../store';
+import { useDispatch, useSelector } from "react-redux";
+import { cryptocurrency } from "../../../store";
 
 const CryptoCurrencyDropDown = () => {
   const dispatch = useDispatch();
@@ -7,12 +7,14 @@ const CryptoCurrencyDropDown = () => {
     return state.dropdown.cryptoData;
   });
 
+  const trendingData = useSelector((state: any) => {
+    return state.api.trendCoin;
+  });
+
   const handleDropdownChangeCrypto = (event: any) => {
     const value = event.target.value;
     dispatch(cryptocurrency(value));
   };
-
-  const cryptoOptions = ['CryptoCurrency', 'BitCoin', 'Binaca'];
 
   return (
     <select
@@ -20,11 +22,16 @@ const CryptoCurrencyDropDown = () => {
       value={cryptoTypeData}
       onChange={handleDropdownChangeCrypto}
     >
-      {cryptoOptions.map((item, index) => (
-        <option value={item} key={index}>
-          {item}
-        </option>
-      ))}
+      {/* <option value="tether" selected disabled hidden>Tether</option> */}
+      {trendingData.map(
+        ({ item: { id, name} }: any) => {
+          return (
+            <option value={id} key={id}>
+              {name}
+            </option>
+          );
+        }
+      )}
     </select>
   );
 };

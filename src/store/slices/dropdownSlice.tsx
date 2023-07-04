@@ -4,7 +4,7 @@ const dropdownSlice = createSlice({
   name: 'dropdown',
   initialState: {
     chartData: 'Line',
-    cryptoData: 'CryptoCurrency',
+    cryptoData: 'bitcoin',
     currencyCountry: 'INR',
     daySelected: 7,
   },

@@ -12,6 +12,7 @@ const MarketCap = () => {
   const currencyData = useSelector((state: any) => {
     return state.dropdown.currencyCountry;
   });
+  
   const { data } = marKetData;
 
   return (
