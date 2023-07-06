@@ -51,7 +51,6 @@ const Dashboard = () => {
           'https://api.coingecko.com/api/v3/search/trending'
         );
         dispatch(trendingCoin(response.data?.coins));
-        console.log('>>>>>', response.data?.coins);
         setLoadingTrend(false);
       } catch (error) {
         console.log(error);
