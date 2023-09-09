@@ -15,9 +15,11 @@ const MarketCap = () => {
   
   const { data } = marKetData;
 
+  // console.log(data)
+
   return (
     <>
-      <div className="lg:w-2/4 my-4 lg:my-0 h-fit overflow-x-hidden bg-white px-4 py-6 ">
+      <div className="min-w-[300px] lg:w-2/4 my-4 lg:my-0 h-fit overflow-x-hidden bg-white px-4 py-6 ">
         <div className="font-bold">Cryptocurrency by market cap</div>
         <div className="scroll h-[900px] overflow-y-scroll">
           {data &&
@@ -52,6 +54,7 @@ const MarketCap = () => {
                       </span>
                     )}
                   </div>
+                  <div>Price ${item.current_price}</div>
                 </div>
                 {item?.market_cap_change_percentage_24h && (
                   <div
