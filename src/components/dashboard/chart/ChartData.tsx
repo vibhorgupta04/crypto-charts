@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { CalenderIcon } from '../../common/Icons';
-import { UserData } from '../Data';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,8 +15,6 @@ const ChartData = () => {
   const dispatch = useDispatch();
   const [dataCoin, setDataCoin] =useState<any>('')
   const[loadingCoinData ,setLoadingCoinData] = useState(false)
-  
-  
 
   const day = useSelector((state: any) => {
     return state.dropdown.daySelected;
@@ -65,6 +61,10 @@ const fetchCoinData = async () => {
     return state.api.cryptoData;
   });
 
+  const selectedCoins = useSelector((state: any) => {
+    return state.dropdown.selectedCoins;
+  });
+  
   const formattedData: any = cryptoData?.data?.prices?.map((price: any) => {
     return { x: new Date(price[0]), y: price[1] };
   });
@@ -72,8 +72,9 @@ const fetchCoinData = async () => {
     return { x: new Date(price[0]), y: price[1] };
   });
 
-  const labelModified = `${coin.toUpperCase()}`;
-  const labelModified2 = `${coin2.toUpperCase()}`
+  const labelModified = selectedCoins[0]?.label ? `${selectedCoins[0]?.label?.toUpperCase()}` : `${coin?.label?.toUpperCase()}`;
+
+  const labelModified2 = selectedCoins[1]?.label ? `${selectedCoins[1]?.label?.toUpperCase()}` : `${coin2?.toUpperCase()}`
 
   const dataBar = {
     labels: formattedData?.map(({ x }: any) => moment(x).format('DD-MMM-YYYY')),
@@ -104,6 +105,7 @@ const fetchCoinData = async () => {
   };
 
   const optionsBar: any = {
+    responsive: true,
     scales: {
       yAxes: [
         {
@@ -141,6 +143,7 @@ const fetchCoinData = async () => {
   };
 
   const options: any = {
+    responsive: true,
     elements: {
       point: {
         radius: 0,
@@ -149,6 +152,7 @@ const fetchCoinData = async () => {
   };
 
   const optionsLineMarker: any = {
+    responsive: true,
     elements: {
       point: {
         radius: 1,
@@ -176,11 +180,6 @@ const fetchCoinData = async () => {
     },
   };
 
-  // const value: any = 1;
-  // const handleDropdownChangeChart = (value: any) => {
-  //   dispatch(days(value));
-  // };
-
   const DAY = useSelector((state: any) => {
     return state.dropdown.daySelected;
   });
@@ -193,6 +192,8 @@ const fetchCoinData = async () => {
     { value: 180, title: '6M' },
     { value: 364, title: '1Y' },
   ];
+
+  if(loadingCoinData) return <div>Loading</div>;
 
   return (
     <div className="bg-white shadow rounded my-4 px-4 py-6">
@@ -219,18 +220,34 @@ const fetchCoinData = async () => {
           </div>
         </div>
         <div className=''>
-          {chartTypeData == 'Bar' && (
-            <Bar data={dataBar} options={optionsBar} />
+          {chartTypeData === 'Bar' && (
+            <div className='w-[100%] flex-1 h-[30vh]' style={{
+              maxWidth: '100vw',
+              flex:1,
+              display: 'flex',
+            }}>
+              <Bar data={dataBar} options={optionsBar} />
+            </div>
           )}
-          {/* {chartTypeData == 'Bar' && <Line data={userLine} />} */}
-          {chartTypeData == 'Line with Markers' && (
-            <Line data={userLine} options={optionsLineMarker} />
+          {chartTypeData === 'Line with Markers' && (
+            <div style={{
+              maxWidth: '100vw',
+              flex:1,
+              display: 'flex',
+            }}>
+              <Line data={userLine} options={optionsLineMarker} />
+            </div>
           )}
-          {chartTypeData == 'Line' && (
-            <Line data={userLine} options={options} />
+          {chartTypeData === 'Line' && (
+            <div className='w-[100%] flex-1 h-[30vh]' style={{
+              maxWidth: '100vw',
+              flex:1,
+              display: 'flex',
+            }}>
+              <Line data={userLine} options={options} />
+            </div>
           )}
         </div>
-        
       </div>
     </div>
   );

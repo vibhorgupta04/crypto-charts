@@ -7,6 +7,7 @@ const dropdownSlice = createSlice({
     cryptoData: 'bitcoin',
     currencyCountry: 'INR',
     daySelected: 7,
+    selectedCoins: []
   },
   reducers: {
     chartType(state: any, action: any) {
@@ -21,9 +22,12 @@ const dropdownSlice = createSlice({
     days(state: any, action: any) {
       state.daySelected = action.payload;
     },
+    coins(state: any, action: any) {
+      state.selectedCoins = action.payload;
+    },
   },
 });
 
-export const { chartType, cryptocurrency, currency, days } =
+export const { chartType, cryptocurrency, currency, days, coins } =
   dropdownSlice.actions;
 export const dropdownReducer = dropdownSlice.reducer;

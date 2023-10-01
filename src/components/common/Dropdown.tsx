@@ -1,11 +1,8 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { DownIcon } from './Icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { chartType } from '../../store';
 
-const Dropdown = ({ options, value, format }: any) => {
-  // const dispatch = useDispatch();
+const Dropdown = ({ options, format }: any) => {
 
   const [selectedOption, setSelectedOption] = useState(
     options ? options[0] : ''

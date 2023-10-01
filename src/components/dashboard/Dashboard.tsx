@@ -35,9 +35,6 @@ const Dashboard = () => {
     return state.dropdown.daySelected;
   });
 
-  const cryptoData = useSelector((state: any) => {
-    return state.coin.coin;
-  });
 
   const coin = useSelector((state: any) => {
     return state.coin.coin;
@@ -110,7 +107,7 @@ const Dashboard = () => {
     fetchData();
   }, [currencyData]);
 
-  if (loadingCap || loadingTrend)
+  if (loadingCap || loadingTrend || loadingCoinData)
     return <div className="text-xl my-10">Loading...</div>;
 
   return (

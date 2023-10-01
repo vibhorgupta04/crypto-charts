@@ -63,7 +63,6 @@ const Search = () => {
         <input
           type="text"
           placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
-          // placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
           className={`w-full focus:outline-none placeholder:font-semibold ${
             currencyName
               ? 'placeholder:text-gray-1'

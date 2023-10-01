@@ -15,8 +15,6 @@ const MarketCap = () => {
   
   const { data } = marKetData;
 
-  // console.log(data)
-
   return (
     <>
       <div className="min-w-[300px] lg:w-2/4 my-4 lg:my-0 h-fit overflow-x-hidden bg-white px-4 py-6 ">
