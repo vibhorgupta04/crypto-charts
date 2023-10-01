@@ -37,13 +37,6 @@ const ExchangeCoin = () => {
     })();
   }, []);
 
-  // handle api loading
-  if (loading) return <h2>Loading...</h2>;
-
-  // handle error
-  if (!loading && error)
-    return <h2>Data could not be loaded, please try again.</h2>;
-
   const handleExchangeCalculation = (e: React.FormEvent) => {
     e.preventDefault();
     const [, sellUnit] = selectedExchange.sell.split(' ');
@@ -63,6 +56,10 @@ const ExchangeCoin = () => {
       return;
     }
   };
+
+  // handle error
+  if (!loading && error)
+    return <h2>Data could not be loaded, please try again.</h2>;
 
   return (
     <form
@@ -88,7 +85,8 @@ const ExchangeCoin = () => {
               <option value="" disabled>
                 Select Sell Exchange
               </option>
-              {Object.values(exchangeList).map(
+              {loading && <div>Loading...</div>}
+              {!loading && Object.values(exchangeList).map(
                 ({ name, unit, value }: ExchangeItem) => (
                   <option
                     className="px-4"

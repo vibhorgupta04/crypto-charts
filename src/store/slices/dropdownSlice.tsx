@@ -22,7 +22,7 @@ const dropdownSlice = createSlice({
     days(state: any, action: any) {
       state.daySelected = action.payload;
     },
-    coins(state: any, action: any) {
+    coins(state: any, action) {
       state.selectedCoins = action.payload;
     },
   },

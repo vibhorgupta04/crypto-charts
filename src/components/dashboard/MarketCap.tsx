@@ -1,4 +1,5 @@
 import { coinValue } from '../../store';
+import { coins } from '../../store/slices/dropdownSlice';
 import { DownIcon, UpIcon } from '../common/Icons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -26,7 +27,9 @@ const MarketCap = () => {
               <div
                 className=" my-4 flex items-center justify-between font-semibold border-b py-2 cursor-pointer"
                 key={item.id}
-                onClick={() => dispatch(coinValue(item.id))}
+                onClick={() => {
+                  dispatch(coinValue(item.id))
+                }}
               >
                 <div className="">
                   <div className="flex items-center gap-2">

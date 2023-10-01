@@ -3,7 +3,6 @@ import Select from 'react-select';
 import React, { useState, useEffect } from 'react';
 import { coins } from '../../../store/slices/dropdownSlice';
 
-
 const CryptoCurrencyDropDown = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const maxSelectedItems = 2;
@@ -24,7 +23,7 @@ const CryptoCurrencyDropDown = () => {
 
   const handleSelectChange = (selectedValues: any) => {
     setSelectedOptions(selectedValues);
-    dispatch(coins(selectedValues))
+    dispatch(coins(selectedValues));
   };
 
   let options: any[] = []

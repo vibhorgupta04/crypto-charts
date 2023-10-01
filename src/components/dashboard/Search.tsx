@@ -3,6 +3,7 @@ import { SearchLineIcon } from '../common/Icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { coinValue } from '../../store';
 import axios from 'axios';
+import { coins } from '../../store/slices/dropdownSlice';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -19,28 +20,29 @@ const Search = () => {
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    const handleSearch = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `https://api.coingecko.com/api/v3/search?query=${currency}`
-        );
-        setSearchResult(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log('error', error);
-        setLoading(false);
-      }
-    };
+    if (currency) {
+      const handleSearch = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get(
+            `https://api.coingecko.com/api/v3/search?query=${currency}`
+          );
+          setSearchResult(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.log('error', error);
+          setLoading(false);
+        }
+      };
 
-    const debounceSearch = () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        handleSearch();
-      }, 300);
-    };
-
-    debounceSearch();
+      const debounceSearch = () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          handleSearch();
+        }, 300);
+      };
+      debounceSearch();
+    }
 
     return () => {
       clearTimeout(timer);
@@ -52,7 +54,7 @@ const Search = () => {
   };
 
   return (
-    <div className={`${openSearch ? 'drop-shadow' : ''} relative w-full`}>
+    <div className={`${openSearch ? 'drop-shadow z-10' : ''} relative w-full`}>
       <div
         className={`${
           openSearch ? 'rounded-t' : 'drop-shadow rounded'
@@ -64,9 +66,7 @@ const Search = () => {
           type="text"
           placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
           className={`w-full focus:outline-none placeholder:font-semibold ${
-            currencyName
-              ? 'placeholder:text-gray-1'
-              : 'placeholder:text-gray-1'
+            currencyName ? 'placeholder:text-gray-1' : 'placeholder:text-gray-1'
           }`}
           value={currency}
           onChange={handleChange}
@@ -83,7 +83,10 @@ const Search = () => {
                 {loading ? (
                   <div className="py-2 px-4 text-gray-500">Loading...</div>
                 ) : (
-                  coinsTrending.map(({item: { id, small, name, symbol, market_cap_rank },}: any) => (
+                  coinsTrending.map(
+                    ({
+                      item: { id, small, name, symbol, market_cap_rank },
+                    }: any) => (
                       <button
                         className="my-2 w-full rounded flex px-4 py-2 justify-between hover:bg-gray-100"
                         key={name}
@@ -91,6 +94,7 @@ const Search = () => {
                           dispatch(coinValue(id));
                           setOpenSearch(false);
                           setCurrencyName(`${name} (${symbol})`);
+                          setCurrency(name);
                         }}
                       >
                         <div className="text-lg flex items-center gap-2 cursor-pointer">
@@ -147,7 +151,10 @@ const Search = () => {
           </div>
           <button
             className="absolute right-2 -top-8"
-            onClick={() => setOpenSearch(false)}
+            onClick={() => {
+              setOpenSearch(false);
+              setCurrency('');
+            }}
           >
             X
           </button>

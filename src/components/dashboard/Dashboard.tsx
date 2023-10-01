@@ -100,15 +100,12 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchCoinData();
+    if (coin) fetchCoinData();
   }, [coin, day]);
 
   useEffect(() => {
     fetchData();
   }, [currencyData]);
-
-  if (loadingCap || loadingTrend || loadingCoinData)
-    return <div className="text-xl my-10">Loading...</div>;
 
   return (
     <div className=" bg-blue-1 md:m-6 px-2 py-4 md:p-4 rounded lg:flex gap-4 overflow-hidden">
