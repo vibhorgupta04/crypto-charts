@@ -35,7 +35,7 @@ const Portfolio = () => {
     ],
   });
   return (
-    <div className="w-full lg:w-2/5 rounded bg-white shadow px-4 py-6">
+    <div className="w-full lg:h-[300px] lg:w-[45%] rounded bg-white shadow px-4 py-6">
       <div className="flex justify-between">
         <div className="font-semibold">Portfolio</div>
         <div className="text-gray-6">
@@ -43,7 +43,7 @@ const Portfolio = () => {
         </div>
       </div>
       <div className="mt-6">
-        <div className="mb-4 flex justify-between flex-row gap-2 items-center text-sm">
+        <div className="mb-4 flex flex-wrap lg:flex-row gap-4 lg:gap-2 items-center text-sm">
           <div className="flex gap-2">
             <span className=" px-6 border-2 border-red-2 bg-red-3"></span>
             <span>Bitcoin</span>
@@ -57,8 +57,8 @@ const Portfolio = () => {
             <span>Tether</span>
           </div>
         </div>
-        <div className="mx-auto flex justify-center w-11/12">
-          <Pie data={user} />
+        <div className="mx-auto flex justify-center h-[180px] ">
+          <Pie data={user} height={300} width={260} />
         </div>
       </div>
     </div>

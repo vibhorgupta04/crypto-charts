@@ -35,7 +35,6 @@ const Dashboard = () => {
     return state.dropdown.daySelected;
   });
 
-
   const coin = useSelector((state: any) => {
     return state.coin.coin;
   });
@@ -108,7 +107,7 @@ const Dashboard = () => {
   }, [currencyData]);
 
   return (
-    <div className=" bg-blue-1 md:m-6 px-2 py-4 md:p-4 rounded lg:flex gap-4 overflow-hidden">
+    <div className="bg-blue-1 md:my-6 px-2 py-4 md:p-4 rounded flex flex-col lg:flex-row gap-4">
       <div className="w-full">
         <div className="flex flex-col md:flex-row items-center gap-4 ">
           <select
@@ -123,12 +122,14 @@ const Dashboard = () => {
           <Search />
         </div>
         <ChartData />
-        <div className="flex flex-wrap lg:flex-nowrap gap-4">
+        <div className="w-full lg:h-[420px] flex flex-wrap lg:flex-nowrap gap-4">
           <Portfolio />
           <ExchangeCoin />
         </div>
       </div>
-      <MarketCap />
+      <div className='shadow rounded lg:min-w-[400px] h-fit'>
+        <MarketCap />
+      </div>
     </div>
   );
 };

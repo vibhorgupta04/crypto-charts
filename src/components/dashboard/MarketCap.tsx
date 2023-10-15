@@ -18,9 +18,9 @@ const MarketCap = () => {
 
   return (
     <>
-      <div className="min-w-[300px] lg:w-2/4 my-4 lg:my-0 h-fit overflow-x-hidden bg-white px-4 py-6 ">
+      <div className="my-4 lg:my-0 h-fit px-4 py-6 ">
         <div className="font-bold">Cryptocurrency by market cap</div>
-        <div className="scroll h-[900px] overflow-y-scroll">
+        <div className="scroll lg:h-[880px] overflow-y-scroll">
           {data &&
             data.length > 0 &&
             data.map((item: any) => (
@@ -39,8 +39,8 @@ const MarketCap = () => {
                       width="20"
                       height="20"
                     />
-                    {item.name.charAt(0).toUpperCase() + item.name.slice(1)} (
-                    {item.symbol.toUpperCase()})
+                    {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                    ({item.symbol.toUpperCase()})
                   </div>
                   <div className="text-gray-400 ">
                     Mkt.cap
@@ -55,7 +55,7 @@ const MarketCap = () => {
                       </span>
                     )}
                   </div>
-                  <div>Price ${item.current_price}</div>
+                  <div className={`text-gray-400`}>Price ${item.current_price}</div>
                 </div>
                 {item?.market_cap_change_percentage_24h && (
                   <div

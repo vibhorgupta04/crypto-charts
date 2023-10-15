@@ -64,7 +64,7 @@ const ChartData = () => {
   const labelModified2 =
     selectedCoins[1]?.label && `${selectedCoins[1]?.label?.toUpperCase()}`;
 
-  const mainLabelModified = `${coin?.label?.toUpperCase() || coin}`;
+  const mainLabelModified = `${coin?.label?.toUpperCase() || coin.toUpperCase()}`;
 
   const datasets = [];
   if (mainLabelModified) {
@@ -84,8 +84,8 @@ const ChartData = () => {
     datasets.push({
       label: labelModified,
       data: formattedData,
-      backgroundColor: ['rgba(255, 99, 132, 0.5)'],
-      borderColor: 'rgba(255, 99, 132, 1)',
+      backgroundColor: ['rgba(153, 102, 255, 0.5)'],
+      borderColor: 'rgb(153, 102, 255)',
       barPercentage: 0,
       borderWidth: 0,
       barThickness: 1,
@@ -118,9 +118,9 @@ const ChartData = () => {
     userLineDataSets.push({
       label: mainLabelModified,
       data: mainFormattedData,
-      backgroundColor: ['#2962ff'],
-      borderColor: '#2962ff',
-      fill: '#2962ff',
+      backgroundColor: ['rgba(75, 192, 192, 0.5)'],
+      borderColor: 'rgba(75, 192, 192, 1)',
+      fill: 'rgba(75, 192, 192, 1)',
       borderWidth: 1.5,
       barThickness: 1,
     });
@@ -129,9 +129,9 @@ const ChartData = () => {
     userLineDataSets.push({
       label: labelModified,
       data: formattedData,
-      backgroundColor: ['#2962ff'],
-      borderColor: '#2962ff',
-      fill: '#2962ff',
+      backgroundColor: ['rgb(153, 102, 255, 0.5)'],
+      borderColor: 'rgb(153, 102, 255)',
+      fill: 'rgb(153, 102, 255)',
       borderWidth: 1.5,
       barThickness: 1,
     });
@@ -140,9 +140,9 @@ const ChartData = () => {
     userLineDataSets.push({
       label: labelModified2,
       data: formattedData2,
-      backgroundColor: ['#2962ff'],
-      borderColor: '#2962ff',
-      fill: '#2962ff',
+      backgroundColor: ['rgb(255, 159, 64, 0.5)'],
+      borderColor: 'rgb(255, 159, 64, 1)',
+      fill: 'rgb(255, 159, 64)',
       borderWidth: 1.5,
       barThickness: 1,
     });
@@ -189,40 +189,34 @@ const ChartData = () => {
 
   return (
     <div className="bg-white shadow rounded my-4 px-4 py-6">
-      <div className="">
-        <div className="md:flex items-center justify-end gap-8">
-          <div className="flex flex-wrap gap-3 font-semibold ">
-            {DAYS_ARRAY.map(({ value, title }: any) => (
-              <button
-                key={value}
-                className={`rounded  py-2 px-4 ${
-                  DAY === value
-                    ? 'bg-blue-2 ring-2 ring-blue-3 text-blue-3'
-                    : 'bg-gray-2'
-                }`}
-                onClick={() => dispatch(days(value))}
-              >
-                {title}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-col md:flex-row gap-1 md:gap-3 my-4 ">
-            <CryptoCurrencyDropDown />
-            <ChartBarDropDown />
-          </div>
+      <div className="md:flex items-center justify-between gap-4">
+        <div className="w-fit flex flex-wrap gap-3 font-semibold ">
+          {DAYS_ARRAY.map(({ value, title }: any) => (
+            <button
+              key={value}
+              className={`rounded  py-2 px-4 ${
+                DAY === value
+                  ? 'bg-blue-2 ring-2 ring-blue-3 text-blue-3'
+                  : 'bg-gray-2'
+              }`}
+              onClick={() => dispatch(days(value))}
+            >
+              {title}
+            </button>
+          ))}
         </div>
-        <div className="">
-          {chartTypeData === 'Bar' && (
-            <Bar data={dataBar} options={optionsBar} />
-          )}
-          {chartTypeData === 'Line with Markers' && (
-            <Line data={userLine} options={optionsLineMarker} />
-          )}
-          {chartTypeData === 'Line' && (
-            <Line data={userLine} options={options} />
-          )}
+        <div className="lg:w-1/2 flex flex-col gap-1 md:gap-3 my-4 ">
+          <CryptoCurrencyDropDown />
+          <ChartBarDropDown />
         </div>
       </div>
+      <>
+        {chartTypeData === 'Bar' && <Bar data={dataBar} options={optionsBar} />}
+        {chartTypeData === 'Line with Markers' && (
+          <Line data={userLine} options={optionsLineMarker} />
+        )}
+        {chartTypeData === 'Line' && <Line data={userLine} options={options} />}
+      </>
     </div>
   );
 };

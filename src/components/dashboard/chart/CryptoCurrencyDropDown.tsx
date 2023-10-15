@@ -26,27 +26,26 @@ const CryptoCurrencyDropDown = () => {
     dispatch(coins(selectedValues));
   };
 
-  let options: any[] = []
+  let options: any[] = [];
 
-  trendingData && trendingData.map((data: any) => options.push({value: data?.item?.slug, label: data?.item?.name}))
+  trendingData &&
+    trendingData.map((data: any) =>
+      options.push({ value: data?.item?.slug, label: data?.item?.name })
+    );
 
   return (
-    <div className=" relative">
-      <div
-        className="w-[10rem]"
-      >
-         <Select
-          options={options}
-          isMulti
-          value={selectedOptions}
-          onChange={handleSelectChange}
-          closeMenuOnSelect={false}
-          components={{
-            Option: CustomOption, // Custom option component to add checkboxes
-          }}
-        />
-      </div> 
-    </div>
+    <>
+      <Select
+        options={options}
+        isMulti
+        value={selectedOptions}
+        onChange={handleSelectChange}
+        closeMenuOnSelect={false}
+        components={{
+          Option: CustomOption, // Custom option component to add checkboxes
+        }}
+      />
+    </>
   );
 };
 
@@ -58,9 +57,10 @@ const CustomOption: React.FC<{
   isSelected: boolean;
 }> = ({ innerProps, label, isSelected }) => (
   <div {...innerProps}>
-    <label className="container">{label}
-      <input type="checkbox" checked={isSelected} />
-      <span className="checkmark"></span>
+    <label className="mx-4">
+      {label}
+      <input type="checkbox" checked={isSelected} className="px-4 hidden" />
+      {/* <span className="checkmark"></span> */}
     </label>
   </div>
 );

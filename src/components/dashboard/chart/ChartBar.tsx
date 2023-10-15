@@ -17,7 +17,7 @@ const ChartBar = () => {
 
   return (
     <select
-      className="ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
+      className="h-fit ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
       value={chartTypeData}
       onChange={handleDropdownChangeChart}
     >

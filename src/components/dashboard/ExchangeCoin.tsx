@@ -63,17 +63,17 @@ const ExchangeCoin = () => {
 
   return (
     <form
-      className="w-full rounded bg-white shadow px-6 py-4"
+      className="w-full lg:w-[55%] h-fit lg:h-[300px] rounded bg-white shadow px-6 py-4"
       onSubmit={handleExchangeCalculation}
     >
       <div className="font-semibold">Exchange Coins</div>
 
-      <div className="py-4 flex lg:items-center gap-6">
+      <div className="py-4 flex flex-col lg:flex-row lg:items-center gap-6">
         <span className="text-orange-400 font-bold">Sell</span>
-        <div className="flex flex-col gap-4">
-          <span>
+        <div className="w-full flex flex-col lg:flex-row gap-4">
+          <>
             <select
-              className="focus:ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
+              className="lg:w-[30%] focus:ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
               value={selectedExchange.sell}
               onChange={(e) =>
                 setSelectedExchange({
@@ -86,20 +86,21 @@ const ExchangeCoin = () => {
                 Select Sell Exchange
               </option>
               {loading && <div>Loading...</div>}
-              {!loading && Object.values(exchangeList).map(
-                ({ name, unit, value }: ExchangeItem) => (
-                  <option
-                    className="px-4"
-                    key={unit + name}
-                    value={value + ' ' + unit}
-                  >
-                    {name}
-                  </option>
-                )
-              )}
+              {!loading &&
+                Object.values(exchangeList).map(
+                  ({ name, unit, value }: ExchangeItem) => (
+                    <option
+                      className="px-4"
+                      key={unit + name}
+                      value={value + ' ' + unit}
+                    >
+                      {name}
+                    </option>
+                  )
+                )}
             </select>
-          </span>
-          <span className="inline-flex items-center gap-2">
+          </>
+          <span className="lg:w-1/2 inline-flex items-center gap-2">
             <input
               className="bg-gray-100 px-2 py-2 focus:ring-1 ring-gray-300 focus:outline-none"
               placeholder="Enter Value"
@@ -118,37 +119,31 @@ const ExchangeCoin = () => {
           </span>
         </div>
       </div>
-      <div className="py-4 flex flex-row items-center gap-6">
+      <div className="py-4 flex flex-col lg:flex-row lg:items-center gap-6">
         <span className="text-green-500 font-bold">Buy</span>
-        <div className='flex flex-col gap-4'>
-          <span>
-            <select
-              className="focus:ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
-              value={selectedExchange.buy}
-              onChange={(e) =>
-                setSelectedExchange({
-                  ...selectedExchange,
-                  buy: e.target.value,
-                })
-              }
-            >
-              <option value="" disabled>
-                Select Sell Exchange
-              </option>
-              {Object.values(exchangeList).map(
-                ({ unit, name, value }: ExchangeItem) => (
-                  <option
-                    className="px-4"
-                    key={name}
-                    value={value + ' ' + unit}
-                  >
-                    {name}
-                  </option>
-                )
-              )}
-            </select>
-          </span>
-          <span className="inline-flex items-center gap-2">
+        <div className="flex flex-col lg:flex-row gap-4">
+          <select
+            className="lg:w-[30%] focus:ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
+            value={selectedExchange.buy}
+            onChange={(e) =>
+              setSelectedExchange({
+                ...selectedExchange,
+                buy: e.target.value,
+              })
+            }
+          >
+            <option value="" disabled>
+              Select Sell Exchange
+            </option>
+            {Object.values(exchangeList).map(
+              ({ unit, name, value }: ExchangeItem) => (
+                <option className="px-4" key={name} value={value + ' ' + unit}>
+                  {name}
+                </option>
+              )
+            )}
+          </select>
+          <span className="lg:w-[30%] inline-flex items-center gap-2">
             <input
               className="bg-gray-100 px-2 py-2 focus:ring-1 ring-gray-300 focus:outline-none"
               placeholder="Enter Value"
@@ -167,12 +162,14 @@ const ExchangeCoin = () => {
           </span>
         </div>
       </div>
-      <button
-        className="bg-blue-600 text-white px-6 py-2 rounded my-4"
-        type="submit"
-      >
-        Exchange
-      </button>
+      <div className='flex justify-center'>
+        <button
+          className="bg-blue-600 text-white px-10 py-2 rounded my-4"
+          type="submit"
+        >
+          Exchange
+        </button>
+      </div>
     </form>
   );
 };
