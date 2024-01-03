@@ -6,7 +6,7 @@ import {
   trendingCoin,
   searchCryptoData,
 } from '../../store';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import ChartData from './chart/ChartData';
 import Search from './Search';
@@ -16,17 +16,20 @@ import Portfolio from './Portfolio';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const [loadingCap, setLoadingCap] = useState(false);
-  const [loadingTrend, setLoadingTrend] = useState(false);
-  const [loadingCoinData, setLoadingCoinData] = useState(false);
+  const [loadingCap, setLoadingCap] = useState<boolean>(false);
+  const [loadingTrend, setLoadingTrend] = useState<boolean>(false);
+  const [loadingCoinData, setLoadingCoinData] = useState<boolean>(false);
 
-  const currencyOptions = ['INR', 'USD', 'GBP', 'EUR', 'YEN'];
+  // Array of currency options for dropdown
+  const currencyOptions: string[] = ['INR', 'USD', 'GBP', 'EUR', 'YEN'];
 
-  const handleDropdownChangeChart = (event: any) => {
+  // Event handler for changing the currency dropdown in the chart
+  const handleDropdownChangeChart = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const value: any = event.target.value;
     dispatch(currency(value));
   };
 
+  // Selectors to get data from Redux store
   const currencyData = useSelector((state: any) => {
     return state.dropdown.currencyCountry;
   });
@@ -43,11 +46,12 @@ const Dashboard = () => {
     return state.coin.coin;
   });
 
+  // to fetch trending coins on component mount
   useEffect(() => {
-    const fetchTrending = async () => {
+    const fetchTrending = async (): Promise<void> => {
       try {
         setLoadingTrend(true);
-        const response: any = await axios.get(
+        const response: AxiosResponse = await axios.get(
           'https://api.coingecko.com/api/v3/search/trending'
         );
         dispatch(trendingCoin(response.data?.coins));
@@ -60,7 +64,8 @@ const Dashboard = () => {
     fetchTrending();
   }, []);
 
-  const fetchCoinData = async () => {
+  const fetchCoinData = async (): Promise<void> => {
+    // fetch data from api of the selected coin
     try {
       setLoadingCoinData(true);
       const response: any = await axios.get(
@@ -80,10 +85,11 @@ const Dashboard = () => {
     }
   };
 
-  const fetchData = async () => {
+  // function to fetch market cap data
+  const fetchData = async (): Promise<void> => {
     try {
       setLoadingCap(true);
-      const response: any = await axios.get(
+      const response: AxiosResponse = await axios.get(
         'https://api.coingecko.com/api/v3/coins/markets',
         {
           params: {
@@ -94,7 +100,7 @@ const Dashboard = () => {
           },
         }
       );
-      dispatch(marketCap(response));
+      dispatch(marketCap(response.data));
       setLoadingCap(false);
     } catch (error) {
       console.log('error', error);
@@ -103,10 +109,12 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    // refetch function when coin and day changes
     fetchCoinData();
   }, [coin, day]);
 
   useEffect(() => {
+    // fetch market cap data when currency changes
     fetchData();
   }, [currencyData]);
 

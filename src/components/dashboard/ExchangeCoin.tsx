@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchExchangeList } from "../../utils/fetch";
 
+// define the structure of each item in the exchange list
 interface ExchangeItem {
   name: string;
   value: number;
@@ -9,9 +10,9 @@ interface ExchangeItem {
 }
 
 const ExchangeCoin = () => {
-  const [loading, setLoading] = useState(false)
-  const [exchangeList, setExchangeList] = useState([])
-  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [exchangeList, setExchangeList] = useState<ExchangeItem[]>([])
+  const [error, setError] = useState<boolean>(false)
 
   const [selectedExchange, setSelectedExchange] = useState({
     sell: "",
@@ -23,7 +24,7 @@ const ExchangeCoin = () => {
     buy: 0
   })
 
-  const [exchangeUnit, setExchangeUnit] = useState("")
+  const [exchangeUnit, setExchangeUnit] = useState<string>("")
 
   const [calculationType, setCalculationType] = useState<"buy" | "sell">("buy")
 

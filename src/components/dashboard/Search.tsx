@@ -11,11 +11,13 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState('');
   const [searchResult, setSearchResult] = useState<any>(null);
-
+  
+  // Selectors to get data from Redux store
   const coinsTrending = useSelector((state: any) => {
     return state.api.trendCoin;
   });
 
+  // useEffect to handle search with debounce
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
@@ -47,6 +49,7 @@ const Search = () => {
     };
   }, [currency]);
 
+  // Event handler for input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrency(e.target.value);
   };

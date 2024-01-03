@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { CalenderIcon } from '../../common/Icons';
-import { UserData } from '../Data';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,8 +16,6 @@ const ChartData = () => {
   const [dataCoin, setDataCoin] =useState<any>('')
   const[loadingCoinData ,setLoadingCoinData] = useState(false)
   
-  
-
   const day = useSelector((state: any) => {
     return state.dropdown.daySelected;
   });
