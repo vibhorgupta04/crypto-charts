@@ -56,18 +56,16 @@ const Search = () => {
   return (
     <div className={`${openSearch ? 'drop-shadow z-10' : ''} relative w-full`}>
       <div
-        className={`${
-          openSearch ? 'rounded-t' : 'drop-shadow rounded'
-        } flex items-center gap-2 bg-white px-2 md:px-6 py-2`}
+        className={`${openSearch ? 'rounded-t' : 'drop-shadow rounded'
+          } flex items-center gap-2 bg-white px-2 md:px-6 py-2`}
         onClick={() => setOpenSearch(true)}
       >
         <SearchLineIcon />
         <input
           type="text"
           placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
-          className={`w-full focus:outline-none placeholder:font-semibold ${
-            currencyName ? 'placeholder:text-gray-1' : 'placeholder:text-gray-1'
-          }`}
+          className={`w-full focus:outline-none placeholder:font-semibold ${currencyName ? 'placeholder:text-gray-1' : 'placeholder:text-gray-1'
+            }`}
           value={currency}
           onChange={handleChange}
         />
@@ -102,9 +100,8 @@ const Search = () => {
                           {name} ({symbol})
                         </div>
                         <div
-                          className={`text-gray-200 ${
-                            market_cap_rank ? '' : ''
-                          }`}
+                          className={`text-gray-200 ${market_cap_rank ? '' : ''
+                            }`}
                         >
                           #{market_cap_rank}
                         </div>

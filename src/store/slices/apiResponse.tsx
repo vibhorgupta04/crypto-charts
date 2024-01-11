@@ -1,4 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface ApiDataState {
+  market: Record<string, any>;
+  trendCoin: any[];
+  cryptoData: Record<string, any>;
+}
 
 const apiResponse = createSlice({
   name: 'apiData',
@@ -6,19 +12,22 @@ const apiResponse = createSlice({
     market: {},
     trendCoin: [],
     cryptoData: {},
-  },
+  } as ApiDataState,
   reducers: {
-    marketCap(state: any, action: any) {
+    marketCap(state: ApiDataState, action: PayloadAction<Record<string, any>>) {
       state.market = action.payload;
     },
-    trendingCoin(state: any, action: any) {
+    trendingCoin(state: ApiDataState, action: PayloadAction<any[]>) {
       state.trendCoin = action.payload;
     },
-    searchCryptoData(state: any, action: any) {
+    searchCryptoData(state: ApiDataState, action: PayloadAction<Record<string, any>>) {
       state.cryptoData = action.payload;
     },
   },
 });
+
+export default apiResponse;
+
 
 export const { marketCap, trendingCoin, searchCryptoData } =
   apiResponse.actions;

@@ -14,7 +14,7 @@ import MarketCap from './MarketCap';
 import ExchangeCoin from './ExchangeCoin';
 import Portfolio from './Portfolio';
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const [loadingCap, setLoadingCap] = useState(false);
   const [loadingTrend, setLoadingTrend] = useState(false);
@@ -22,22 +22,14 @@ const Dashboard = () => {
 
   const currencyOptions = ['INR', 'USD', 'GBP', 'EUR', 'YEN'];
 
-  const handleDropdownChangeChart = (event: any) => {
-    const value: any = event.target.value;
+  const handleDropdownChangeChart = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value: string = event.target.value;
     dispatch(currency(value));
   };
 
-  const currencyData = useSelector((state: any) => {
-    return state.dropdown.currencyCountry;
-  });
-
-  const day = useSelector((state: any) => {
-    return state.dropdown.daySelected;
-  });
-
-  const coin = useSelector((state: any) => {
-    return state.coin.coin;
-  });
+  const currencyData = useSelector((state: any) => state.dropdown.currencyCountry);
+  const day = useSelector((state: any) => state.dropdown.daySelected);
+  const coin = useSelector((state: any) => state.coin.coin);
 
   useEffect(() => {
     const fetchTrending = async () => {
