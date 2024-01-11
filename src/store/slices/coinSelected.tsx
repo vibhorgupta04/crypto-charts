@@ -1,21 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface CoinSelectedState {
+  coin: string;
+}
 
 const coinSelected = createSlice({
   name: 'coinData',
   initialState: {
     coin: 'bitcoin',
-    // market: {},
-    // trendCoin: [],
-  },
+  } as CoinSelectedState,
   reducers: {
-    coinValue(state: any, action: any) {
+    coinValue(state: CoinSelectedState, action: PayloadAction<string>) {
       state.coin = action.payload;
     },
-    // trendingCoin(state: any, action: any) {
-    //   state.trendCoin = action.payload;
-    // },
   },
 });
+
+export default coinSelected;
+
 
 export const { coinValue } = coinSelected.actions;
 export const coinResponseReducer = coinSelected.reducer;

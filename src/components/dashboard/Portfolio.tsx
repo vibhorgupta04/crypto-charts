@@ -7,7 +7,6 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Portfolio = () => {
   const [user, setUser] = React.useState({
-    // labels: UserData.map((data) => data.coin),
     datasets: [
       {
         label: "Value $",

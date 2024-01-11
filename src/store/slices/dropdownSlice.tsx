@@ -1,28 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface DropdownState {
+  chartData: string;
+  cryptoData: string;
+  currencyCountry: string;
+  daySelected: number;
+  selectedCoins: string[];
+}
 
 const dropdownSlice = createSlice({
-  name: 'dropdown',
+  name: "dropdown",
   initialState: {
-    chartData: 'Line',
-    cryptoData: 'bitcoin',
-    currencyCountry: 'INR',
+    chartData: "Line",
+    cryptoData: "bitcoin",
+    currencyCountry: "INR",
     daySelected: 7,
-    selectedCoins: []
-  },
+    selectedCoins: [],
+  } as DropdownState,
   reducers: {
-    chartType(state: any, action: any) {
+    chartType(state: DropdownState, action: PayloadAction<string>) {
       state.chartData = action.payload;
     },
-    cryptocurrency(state: any, action: any) {
+    cryptocurrency(state: DropdownState, action: PayloadAction<string>) {
       state.cryptoData = action.payload;
     },
-    currency(state: any, action: any) {
+    currency(state: DropdownState, action: PayloadAction<string>) {
       state.currencyCountry = action.payload;
     },
-    days(state: any, action: any) {
+    days(state: DropdownState, action: PayloadAction<number>) {
       state.daySelected = action.payload;
     },
-    coins(state: any, action) {
+    coins(state: DropdownState, action: PayloadAction<string[]>) {
       state.selectedCoins = action.payload;
     },
   },
