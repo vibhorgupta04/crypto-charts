@@ -1,12 +1,13 @@
-import React from "react";
-import { UserData } from "./Data";
-
+import React, { useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
+
+import { UserData } from "../constants/userdata";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Portfolio = () => {
-  const [user, setUser] = React.useState({
+  const [user, setUser] = useState({
     datasets: [
       {
         label: "Value $",

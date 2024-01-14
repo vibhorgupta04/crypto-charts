@@ -5,14 +5,16 @@ import {
   currency,
   trendingCoin,
   searchCryptoData,
-} from '../../store';
-import axios from 'axios';
-
+  IStore,
+} from '../../store'
 import ChartData from './chart/ChartData';
-import Search from './Search';
+import Search from '../common/Search';
 import MarketCap from './MarketCap';
 import ExchangeCoin from './ExchangeCoin';
 import Portfolio from './Portfolio';
+import { currencyOptions } from '../constants/constants';
+import { CurrencyOptions } from '../types';
+import { fetchMarketChart, fetchMarketsData, fetchTrending } from '../../utils/fetch';
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,83 +22,52 @@ const Dashboard: React.FC = () => {
   const [loadingTrend, setLoadingTrend] = useState(false);
   const [loadingCoinData, setLoadingCoinData] = useState(false);
 
-  const currencyOptions = ['INR', 'USD', 'GBP', 'EUR', 'YEN'];
-
   const handleDropdownChangeChart = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value: string = event.target.value;
+    const value: CurrencyOptions = event.target.value as CurrencyOptions;
     dispatch(currency(value));
   };
 
-  const currencyData = useSelector((state: any) => state.dropdown.currencyCountry);
-  const day = useSelector((state: any) => state.dropdown.daySelected);
-  const coin = useSelector((state: any) => state.coin.coin);
+  const currencyData = useSelector((state: IStore) => state.dropdown.currencyCountry);
+  const day = useSelector((state: IStore) => state.dropdown.daySelected);
+  const coin = useSelector((state: IStore) => state.coin.coin);
 
   useEffect(() => {
-    const fetchTrending = async () => {
-      try {
+    (
+      async () => {
         setLoadingTrend(true);
-        const response: any = await axios.get(
-          'https://api.coingecko.com/api/v3/search/trending'
-        );
-        dispatch(trendingCoin(response.data?.coins));
-        setLoadingTrend(false);
-      } catch (error) {
-        console.log(error);
+        const res = await fetchTrending();
+        dispatch(trendingCoin(res?.coins));
         setLoadingTrend(false);
       }
-    };
-    fetchTrending();
+    )()
   }, []);
 
-  const fetchCoinData = async () => {
-    try {
-      setLoadingCoinData(true);
-      const response: any = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${coin}/market_chart`,
-        {
-          params: {
-            vs_currency: currencyData.toLowerCase(),
-            days: day,
-          },
-        }
-      );
-      dispatch(searchCryptoData(response));
-      setLoadingCoinData(false);
-    } catch (error) {
-      console.log(error);
-      setLoadingCoinData(false);
-    }
-  };
-
-  const fetchData = async () => {
-    try {
-      setLoadingCap(true);
-      const response: any = await axios.get(
-        'https://api.coingecko.com/api/v3/coins/markets',
-        {
-          params: {
-            vs_currency: currencyData.toLowerCase(),
-            order: 'market_cap_desc',
-            per_page: '200',
-            page: '1',
-          },
-        }
-      );
-      dispatch(marketCap(response));
-      setLoadingCap(false);
-    } catch (error) {
-      console.log('error', error);
-      setLoadingCap(false);
-    }
-  };
-
   useEffect(() => {
-    if (coin) fetchCoinData();
+    (
+      async () => {
+        if (coin) {
+          setLoadingCoinData(true);
+          const res = await fetchMarketChart({ coin, currencyData, day })
+          res && dispatch(searchCryptoData(res));
+          setLoadingCoinData(false);
+        }
+      }
+    )()
   }, [coin, day]);
 
   useEffect(() => {
-    fetchData();
+    (
+      async () => {
+        setLoadingCap(true);
+        const res = await fetchMarketsData({ currencyData });
+        res && dispatch(marketCap(res));
+        setLoadingCap(false);
+      }
+    )()
   }, [currencyData]);
+
+
+  if (loadingCap || loadingTrend || loadingCoinData) return <div>Loading...</div>
 
   return (
     <div className="bg-blue-1 md:my-6 px-2 py-4 md:p-4 rounded flex flex-col lg:flex-row gap-4">
@@ -107,7 +78,7 @@ const Dashboard: React.FC = () => {
             value={currencyData}
             onChange={handleDropdownChangeChart}
           >
-            {currencyOptions.map((item) => (
+            {currencyOptions.map((item: CurrencyOptions) => (
               <option key={item}>{item}</option>
             ))}
           </select>

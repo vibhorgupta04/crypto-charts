@@ -16,6 +16,13 @@ import {
 } from './slices/apiResponse';
 
 import { coinResponseReducer, coinValue } from './slices/coinSelected';
+import { ApiDataState, CoinSelectedState, DropdownState } from '../components/types';
+
+export interface IStore {
+  dropdown: DropdownState
+  api: ApiDataState
+  coin: CoinSelectedState
+}
 
 const store = configureStore({
   reducer: {

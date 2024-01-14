@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CoinSelectedState } from '../../components/types';
 
-interface CoinSelectedState {
-  coin: string;
-}
 
 const coinSelected = createSlice({
   name: 'coinData',

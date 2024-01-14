@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface ApiDataState {
-  market: Record<string, any>;
-  trendCoin: any[];
-  cryptoData: Record<string, any>;
-}
+import { ApiDataState } from '../../components/types';
 
 const apiResponse = createSlice({
   name: 'apiData',
