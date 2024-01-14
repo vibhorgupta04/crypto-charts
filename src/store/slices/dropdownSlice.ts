@@ -1,12 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface DropdownState {
-  chartData: string;
-  cryptoData: string;
-  currencyCountry: string;
-  daySelected: number;
-  selectedCoins: string[];
-}
+import { CurrencyOptions, DropdownState } from "../../components/types";
 
 const dropdownSlice = createSlice({
   name: "dropdown",
@@ -24,7 +17,7 @@ const dropdownSlice = createSlice({
     cryptocurrency(state: DropdownState, action: PayloadAction<string>) {
       state.cryptoData = action.payload;
     },
-    currency(state: DropdownState, action: PayloadAction<string>) {
+    currency(state: DropdownState, action: PayloadAction<CurrencyOptions>) {
       state.currencyCountry = action.payload;
     },
     days(state: DropdownState, action: PayloadAction<number>) {

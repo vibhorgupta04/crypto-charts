@@ -32,17 +32,69 @@ The dashboard features a section highlighting trending coins, providing users wi
 
 - **React Redux:** Redux is utilized for state management, ensuring a predictable and centralized state for the entire application.
 
-## Getting Started
+## Folder Structure
 
-Follow these steps to set up and run the Cryptocurrency Dashboard React project locally:
+```plaintext
+- src
+  - components
+    - common
+      - Header.tsx
+      - Icons.tsx
+      - Search.tsx
+    - constants
+      - constants.ts
+      - userdata.ts
+    - dashboard
+      - chart
+         - ChartBar.tsx
+         - ChartData.tsx
+         - CryptCurrencyDropDown.tsx
+      - Dashboard.tsx
+      - ExchangeCoin.tsx
+      - MarketCap.tsx
+      - Portfolio.tsx
+   - types.ts
+  - store
+    - slices
+      - apiResponse.ts
+      - coinSelected.ts
+      - dropdownSlice.ts
+   - index.ts
+    - utils
+      - fetch.ts
+  - App.tsx
+  - index.tsx
+  - index.css
+- public
+  - index.html
+  - assets
+- .gitignore
+- package.json
+- README.md
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/cryptocurrency-dashboard.git
-   cd cryptocurrency-dashboard
-   ```
-2. Run the project:
-   ```bash
-   yarn
-   yarn dev
-   ```
+## Project Structure Explanation
+
+- **src/components:** Contains React components responsible for different features such as CoinSearch, CurrencySwitch, Charts, and TrendingCoins.
+
+- **src/store:** Houses the Redux implementation, including actions, reducers, and the store.
+
+- **src/App.tsx:** The main component where the application is initialized.
+
+- **src/index.tsx:** The entry point of the application.
+
+- **public/index.html:** The HTML file that serves as the main template for the application.
+
+- **.gitignore:** Specifies files and directories to be ignored by version control.
+
+- **package.json:** Includes project metadata, dependencies, and scripts.
+
+- **README.md:** The documentation file you are currently reading.
+
+## Contributing
+
+We welcome contributions! Please follow these guidelines:
+
+- Report issues using the GitHub issue tracker.
+- Fork the repository, make your changes, and submit a pull request.
+- Follow coding standards and conventions in the project.

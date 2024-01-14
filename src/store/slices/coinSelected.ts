@@ -1,13 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface CoinSelectedState {
-  coin: string;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CoinSelectedState } from "../../components/types";
 
 const coinSelected = createSlice({
-  name: 'coinData',
+  name: "coinData",
   initialState: {
-    coin: 'bitcoin',
+    coin: "bitcoin",
   } as CoinSelectedState,
   reducers: {
     coinValue(state: CoinSelectedState, action: PayloadAction<string>) {
@@ -17,7 +14,6 @@ const coinSelected = createSlice({
 });
 
 export default coinSelected;
-
 
 export const { coinValue } = coinSelected.actions;
 export const coinResponseReducer = coinSelected.reducer;

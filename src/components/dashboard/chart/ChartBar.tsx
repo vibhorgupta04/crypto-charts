@@ -1,19 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { chartType } from '../../../store';
+
+import { IStore, chartType } from '../../../store';
+import { chartTypeOptions } from '../../constants/constants';
 
 const ChartBar = () => {
   const dispatch = useDispatch();
 
-  const chartTypeData = useSelector((state: any) => {
-    return state.dropdown.chartData;
-  });
+  const chartTypeData = useSelector((state: IStore) => state.dropdown.chartData);
 
-  const handleDropdownChangeChart = (event: any) => {
-    const chartValue: any = event.target.value;
+  const handleDropdownChangeChart = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const chartValue: string = event.target.value;
     dispatch(chartType(chartValue));
   };
-
-  const chartTypeOptions = ['Bar', 'Line', 'Line with Markers'];
 
   return (
     <select

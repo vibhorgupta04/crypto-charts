@@ -1,4 +1,12 @@
-export const DownIcon = ({ fill, width, height }: any) => (
+interface IconProps {
+  fill?: string;
+  width?: string;
+  height?: string;
+}
+
+// all icons svg are exported from here
+
+export const DownIcon = ({ fill, width, height }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -10,7 +18,7 @@ export const DownIcon = ({ fill, width, height }: any) => (
   </svg>
 );
 
-export const UpIcon = ({ fill, width, height }: any) => (
+export const UpIcon = ({ fill, width, height }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -37,7 +45,7 @@ export const SearchLineIcon = () => (
   </svg>
 );
 
-export const CalenderIcon = ({ fill, width, height }: any) => (
+export const CalenderIcon = ({ fill, width, height }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
