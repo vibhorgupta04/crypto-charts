@@ -9,18 +9,22 @@ interface ExchangeItem {
 }
 
 const ExchangeCoin = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [exchangeList, setExchangeList] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   const [selectedExchange, setSelectedExchange] = useState({
     sell: '',
     buy: '',
   });
 
-  const [exchangeAmount, setExchangeAmount] = useState({
-    sell: 0,
-    buy: 0,
+  const [exchangeAmount, setExchangeAmount] = useState<{
+    sell: null | number,
+    buy: null | number,
+  }>({
+    sell: null,
+    buy: null,
   });
 
   const [exchangeUnit, setExchangeUnit] = useState('');
@@ -41,16 +45,23 @@ const ExchangeCoin = () => {
     e.preventDefault();
     const [, sellUnit] = selectedExchange.sell.split(' ');
     const [buyValue, buyUnit] = selectedExchange.buy.split(' ');
-
+    if (selectedExchange.sell && selectedExchange.buy && (exchangeAmount.sell || exchangeAmount.buy)) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+      return
+    }
     if (calculationType === 'sell') {
-      const totalSell = +exchangeAmount.sell * +buyValue;
+      if (!exchangeAmount.sell) return;
+      const totalSell = +exchangeAmount?.sell * +buyValue;
       setExchangeUnit(buyUnit);
       setExchangeAmount({ ...exchangeAmount, buy: totalSell });
       return;
     }
 
     if (calculationType === 'buy') {
-      const totalBuy = +exchangeAmount.buy / +buyValue;
+      if (!exchangeAmount.buy) return;
+      const totalBuy = +exchangeAmount?.buy / +buyValue;
       setExchangeUnit(sellUnit);
       setExchangeAmount({ ...exchangeAmount, sell: totalBuy });
       return;
@@ -63,12 +74,12 @@ const ExchangeCoin = () => {
 
   return (
     <form
-      className="w-full lg:w-[55%] h-fit lg:h-[300px] rounded bg-white shadow px-6 py-4"
+      className="w-full lg:h-[340px] lg:w-[55%] h-full rounded bg-white shadow px-6 py-4"
       onSubmit={handleExchangeCalculation}
     >
       <div className="font-semibold">Exchange Coins</div>
 
-      <div className="py-4 flex flex-col lg:flex-row lg:items-center gap-6">
+      <div className="py-4 flex flex-col lg:flex-row lg:items-center lg:gap-2">
         <span className="text-orange-400 font-bold">Sell</span>
         <div className="w-full flex flex-col lg:flex-row gap-4">
           <>
@@ -107,7 +118,7 @@ const ExchangeCoin = () => {
               type="number"
               min={0}
               step={0.01}
-              value={+exchangeAmount.sell}
+              value={exchangeAmount?.sell ? +exchangeAmount?.sell : ""}
               onChange={(e) => {
                 setCalculationType('sell');
                 setExchangeAmount({ ...exchangeAmount, sell: +e.target.value });
@@ -119,7 +130,7 @@ const ExchangeCoin = () => {
           </span>
         </div>
       </div>
-      <div className="py-4 flex flex-col lg:flex-row lg:items-center gap-6">
+      <div className="py-4 flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-2">
         <span className="text-green-500 font-bold">Buy</span>
         <div className="flex flex-col lg:flex-row gap-4">
           <select
@@ -150,7 +161,7 @@ const ExchangeCoin = () => {
               type="number"
               min={0}
               step={0.01}
-              value={+exchangeAmount.buy}
+              value={exchangeAmount?.buy ? +exchangeAmount?.buy : ""}
               onChange={(e) => {
                 setCalculationType('buy');
                 setExchangeAmount({ ...exchangeAmount, buy: +e.target.value });
@@ -162,6 +173,7 @@ const ExchangeCoin = () => {
           </span>
         </div>
       </div>
+      {!isValid && <div className='text-red-600'>Please select the exchange to calculate.</div>}
       <div className='flex justify-center'>
         <button
           className="bg-blue-600 text-white px-10 py-2 rounded my-4"

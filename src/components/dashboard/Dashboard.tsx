@@ -18,9 +18,9 @@ import { fetchMarketChart, fetchMarketsData, fetchTrending } from '../../utils/f
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
-  const [loadingCap, setLoadingCap] = useState(false);
-  const [loadingTrend, setLoadingTrend] = useState(false);
-  const [loadingCoinData, setLoadingCoinData] = useState(false);
+  const [loadingCap, setLoadingCap] = useState<boolean>(false);
+  const [loadingTrend, setLoadingTrend] = useState<boolean>(false);
+  const [loadingCoinData, setLoadingCoinData] = useState<boolean>(false);
 
   const handleDropdownChangeChart = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value: CurrencyOptions = event.target.value as CurrencyOptions;
@@ -66,9 +66,6 @@ const Dashboard: React.FC = () => {
     )()
   }, [currencyData]);
 
-
-  if (loadingCap || loadingTrend || loadingCoinData) return <div>Loading...</div>
-
   return (
     <div className="bg-blue-1 md:my-6 px-2 py-4 md:p-4 rounded flex flex-col lg:flex-row gap-4">
       <div className="w-full">
@@ -84,13 +81,14 @@ const Dashboard: React.FC = () => {
           </select>
           <Search />
         </div>
+        {(loadingCap || loadingTrend || loadingCoinData) && <div>Loading...</div>}
         <ChartData />
-        <div className="w-full lg:h-[420px] flex flex-wrap lg:flex-nowrap gap-4">
+        <div className="w-full lg:h-fit flex flex-wrap lg:flex-nowrap gap-4">
           <Portfolio />
           <ExchangeCoin />
         </div>
       </div>
-      <div className='shadow rounded lg:min-w-[400px] h-fit'>
+      <div className='shadow rounded lg:min-w-[400px]'>
         <MarketCap />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { IStore, coinValue } from '../../store';
+import { IStore, coinValue, cryptocurrency } from '../../store';
 import { DownIcon, UpIcon } from '../common/Icons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,7 +14,7 @@ const MarketCap = () => {
   return (
     <div className="my-4 lg:my-0 h-fit px-4 py-6 ">
       <div className="font-bold">Cryptocurrency by market cap</div>
-      <div className="scroll lg:h-[880px] overflow-y-scroll">
+      <div className="scroll lg:h-[860px] overflow-y-scroll">
         {data &&
           data.length > 0 &&
           data.map((item: Record<string, any>) => (
@@ -23,18 +23,19 @@ const MarketCap = () => {
               key={item.id}
               onClick={() => {
                 dispatch(coinValue(item.id))
+                dispatch(cryptocurrency(''));
               }}
             >
               <div className="">
                 <div className="flex items-center gap-2">
                   <img
-                    src={item.image}
-                    alt={item.id}
+                    src={item?.image}
+                    alt={item?.id}
                     width="20"
                     height="20"
                   />
-                  {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-                  ({item.symbol.toUpperCase()})
+                  {item?.name?.charAt(0)?.toUpperCase() + item?.name?.slice(1)}
+                  ({item?.symbol?.toUpperCase()})
                 </div>
                 <div className="text-gray-400 ">
                   Mkt.cap
@@ -49,7 +50,11 @@ const MarketCap = () => {
                     </span>
                   )}
                 </div>
-                <div className={`text-gray-400`}>Price ${item.current_price}</div>
+                <div className={`text-gray-400`}>Price {(currencyData == 'INR' && '₹') ||
+                  (currencyData == 'USD' && '$') ||
+                  (currencyData == 'GBP' && '£') ||
+                  (currencyData == 'YEN' && '￥') ||
+                  (currencyData == 'EUR' && '€')}{item.current_price}</div>
               </div>
               {item?.market_cap_change_percentage_24h && (
                 <div

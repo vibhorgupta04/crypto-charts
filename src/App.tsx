@@ -3,9 +3,11 @@ import Header from './components/common/Header';
 
 function App() {
   return (
-    <div className="max-w-[1300px] mx-auto ">
+    <div className="max-w-[1400px] mx-auto ">
       <Header />
+      <div className='lg:h-[1000px] overflow-y-hidden'>
       <Dashboard />
+      </div>
     </div>
   );
 }

@@ -6,10 +6,10 @@ import moment from 'moment';
 
 import ChartBarDropDown from './ChartBar';
 import { durationOptions, options, optionsBar, optionsLineMarker } from '../../constants/constants';
-import CryptoCurrencyDropDown from './CryptoCurrencyDropDown';
 import { IStore, days } from '../../../store';
 import { DurationOption, IFormattedData, IMainCoin, IPrice } from '../../types';
 import { fetchCoinData } from '../../../utils/fetch';
+import MultiSelect from '../../common/MultiSelect';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -42,8 +42,8 @@ const ChartData = () => {
   });
 
   // modify style for labels
-  const labelModified = `${coin.toUpperCase()}`;
-  const labelModified2 = `${coin2.toUpperCase()}`
+  const labelModified = `${coin?.toUpperCase()}`;
+  const labelModified2 = `${coin2?.toUpperCase()}`
 
   // create data for bar chart with datasets
   const dataBar = {
@@ -60,7 +60,7 @@ const ChartData = () => {
         minBarLength: 1.2,
         base: 5000,
       },
-      ...(labelModified2 !== labelModified
+      ...(labelModified2 !== labelModified && labelModified2
         ? [
           {
             label: labelModified2,
@@ -93,7 +93,7 @@ const ChartData = () => {
         borderWidth: 1.5,
         barThickness: 1,
       },
-      ...(labelModified2 !== labelModified
+      ...(labelModified2 !== labelModified && labelModified2
         ? [
           {
             label: labelModified2,
@@ -115,13 +115,10 @@ const ChartData = () => {
         setLoadingCoinData(true);
         const res = await fetchCoinData({ coin2, currencyData, day });
         res && setDataCoin(res);
-        console.log('res', res)
         setLoadingCoinData(false);
       }
     )()
   }, [coin2, day]);
-
-  if (loadingCoinData) return <div>Loading..</div>
 
   return (
     <div className="bg-white shadow rounded my-4 px-4 py-6">
@@ -142,18 +139,19 @@ const ChartData = () => {
             ))}
           </div>
           <div className="flex flex-col md:flex-row gap-1 md:gap-3 my-4 ">
-            <CryptoCurrencyDropDown />
+            <MultiSelect />
             <ChartBarDropDown />
           </div>
         </div>
         <div>
-          {chartTypeData == 'Bar' && (
+          {loadingCoinData && <div>Loading..</div>}
+          {chartTypeData == 'Bar' && !loadingCoinData && (
             <Bar data={dataBar} options={optionsBar} />
           )}
-          {chartTypeData == 'Line with Markers' && (
+          {chartTypeData == 'Line with Markers' && !loadingCoinData && (
             <Line data={userLine} options={optionsLineMarker} />
           )}
-          {chartTypeData == 'Line' && (
+          {chartTypeData == 'Line' && !loadingCoinData && (
             <Line data={userLine} options={options} />
           )}
         </div>

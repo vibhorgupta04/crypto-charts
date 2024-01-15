@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { SearchLineIcon } from './Icons';
-import { IStore, coinValue } from '../../store';
+import { IStore, coinValue, cryptocurrency } from '../../store';
 import { fetchSearchResult } from '../../utils/fetch';
 import { ICoins, ISearch } from '../types';
 // component for search functionality
@@ -27,13 +27,14 @@ const Search = () => {
         const response = await fetchSearchResult({ currency })
         setSearchResult(response);
         setLoading(false);
+        // setCurrency('')
       };
       // logic to debounce api call
       const debounceSearch = () => {
         clearTimeout(timer);
         timer = setTimeout(() => {
           handleSearch();
-        }, 300);
+        }, 0);
       };
       debounceSearch();
     }
@@ -61,7 +62,7 @@ const Search = () => {
           placeholder={`${currencyName ? currencyName : 'Search by coin'}`}
           className={`w-full focus:outline-none placeholder:font-semibold ${currencyName ? 'placeholder:text-gray-1' : 'placeholder:text-gray-1'
             }`}
-          value={currency}
+          // value={currency}
           onChange={handleChange}
         />
       </div>
@@ -85,6 +86,7 @@ const Search = () => {
                         key={name}
                         onClick={() => {
                           dispatch(coinValue(id));
+                          dispatch(cryptocurrency(''));
                           setOpenSearch(false);
                           setCurrencyName(`${name} (${symbol})`);
                           setCurrency(name);
@@ -117,6 +119,7 @@ const Search = () => {
                       key={item.name}
                       onClick={() => {
                         dispatch(coinValue(item?.id));
+                        dispatch(cryptocurrency(''));
                         setOpenSearch(false);
                         setCurrencyName(`${item.name} (${item.symbol})`);
                       }}

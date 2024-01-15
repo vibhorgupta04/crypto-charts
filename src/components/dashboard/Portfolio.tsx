@@ -35,7 +35,7 @@ const Portfolio = () => {
     ],
   });
   return (
-    <div className="w-full lg:h-[300px] lg:w-[45%] rounded bg-white shadow px-4 py-6">
+    <div className="w-full h-fit lg:w-[45%] rounded bg-white shadow px-4 py-6">
       <div className="flex justify-between">
         <div className="font-semibold">Portfolio</div>
         <div className="text-gray-6">
