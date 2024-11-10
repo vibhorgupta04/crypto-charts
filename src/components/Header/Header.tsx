@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const Header = () => {
-  return (
-    <div className="px-6 shadow-md py-3 cursor-pointer">
-      <img src="/assets/logo.webp" alt="logo" className="w-28" />
-    </div>
-  );
-};
-
+// common header component
+const Header: React.FC = () => (
+  <div className="px-6 shadow-md py-3">
+    <h2 className="font-bold text-orange-1">CryptoCurrency</h2>
+  </div>
+);
 export default Header;
